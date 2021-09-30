@@ -25,7 +25,7 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def makeModel(data):
-    return
+     return
 
 
 '''
@@ -34,6 +34,8 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
+    drawGrid(data, compCanvas, data["computer board"], True)
+    drawGrid(data, userCanvas, data["user board"], True)
     return
 
 
@@ -71,7 +73,8 @@ Parameters: no parameters
 Returns: 2D list of ints
 '''
 def createShip():
-    return
+   return
+    
 
 
 '''
@@ -79,8 +82,16 @@ checkShip(grid, ship)
 Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
-def checkShip(grid, ship):
+# def checkShip(grid, ship):
+#     for each in ship:
+#         if grid[each[0]][each[1]] == EMPTY_UNCLICKED:
+#             return True 
+#         else:
+#             return False
+
+def checkShip(grid, ship): 
     return
+    
 
 
 '''
@@ -89,7 +100,10 @@ Parameters: 2D list of ints ; int
 Returns: 2D list of ints
 '''
 def addShips(grid, numShips):
-    return
+    
+    return 
+  
+    
 
 
 '''
@@ -136,6 +150,7 @@ Parameters: dict mapping strs to values ; Tkinter canvas; 2D list of ints
 Returns: None
 '''
 def drawShip(data, canvas, ship):
+    
     return
 
 
@@ -268,6 +283,6 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-
+    test.testDrawGrid()
     ## Finally, run the simulation to test it manually ##
     runSimulation(500, 500)
