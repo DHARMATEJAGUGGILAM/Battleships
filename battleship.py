@@ -35,7 +35,8 @@ def makeModel(data):
     data["numShips computer board"] = 5
     data["numShips user board"] = 5
     data["user board"] = emptyGrid(data["rows"],data["cols"])
-    data["computer board"] = addShips(emptyGrid(data["rows"], data["cols"]), data["numShips"])
+    data["computer board"] = emptyGrid(data["rows"], data["cols"])
+    data["computer board"] = addShips(data["computer board"], data["numShips computer board"])
     
 
     return
