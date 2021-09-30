@@ -25,7 +25,19 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def makeModel(data):
-     return
+    data["rows"] = 10
+    data["cols"] = 10
+    data["board size"] = 500
+    data["cell size"] = data["board size"]/data["rows"]
+    data["numShips"] = 5
+    data["numShips computer board"] = 5
+    data["numShips user board"] = 5
+    data["user board"] = emptyGrid(data["rows"],data["cols"])
+    data["computer board"] = emptyGrid(data["rows"], data["cols"])
+    data["computer board"] = addShips(data["computer board"], data["numShips computer board"])
+    
+
+    return
 
 
 '''
@@ -62,7 +74,14 @@ Parameters: int ; int
 Returns: 2D list of ints
 '''
 def emptyGrid(rows, cols):
-    return
+    grid=[]
+    for i in range(rows):
+        c = []
+        grid.append(c)
+        for j in range(cols):
+            c.append(EMPTY_UNCLICKED)
+    return grid
+    
 
 
 '''
@@ -71,7 +90,13 @@ Parameters: no parameters
 Returns: 2D list of ints
 '''
 def createShip():
-   return
+    row = random.randint(1,8)
+    col = random.randint(1,8)
+    ship = random.randint(0,1)
+    if ship == 0:
+        return[[row,col-1],[row,col],[row,col+1]]
+    else:
+        return[[row-1,col],[row,col],[row+1,col]]
     
 
 
@@ -80,16 +105,11 @@ checkShip(grid, ship)
 Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
-# def checkShip(grid, ship):
-#     for each in ship:
-#         if grid[each[0]][each[1]] == EMPTY_UNCLICKED:
-#             return True 
-#         else:
-#             return False
-
-def checkShip(grid, ship): 
-    return
-    
+def checkShip(grid, ship):
+    for each in ship: 
+        if grid[each[0]][each[1]] != EMPTY_UNCLICKED: 
+            return False 
+    return True
 
 
 '''
@@ -98,10 +118,14 @@ Parameters: 2D list of ints ; int
 Returns: 2D list of ints
 '''
 def addShips(grid, numShips):
-    
-    return 
-  
-    
+    count = 0 
+    while count < numShips:
+        ship = createShip() 
+        if checkShip(grid,ship) == True: 
+            for each in ship:
+                grid[each[0]][each[1]] = SHIP_UNCLICKED 
+            count = count+1 
+    return grid
 
 
 '''
@@ -289,6 +313,10 @@ def runSimulation(w, h):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    test.testDrawGrid()
+    print("running main")
+    # test.testAddShips()
+    test.week1Tests()
+
+
     ## Finally, run the simulation to test it manually ##
-    runSimulation(500, 500)
+    #  runSimulation(500, 500)
