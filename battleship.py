@@ -29,8 +29,6 @@ def makeModel(data):
     data["cols"] = 10
     data["board size"] = 500
     data["cell size"] = data["board size"]/data["rows"]
-    
-    
     data["numShips"] = 5
     data["numShips computer board"] = 5
     data["numShips user board"] = 5
