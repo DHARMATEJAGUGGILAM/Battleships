@@ -29,14 +29,13 @@ def makeModel(data):
     data["cols"] = 10
     data["board size"] = 500
     data["cell size"] = data["board size"]/data["rows"]
-    data["numShips"] = 5
+    #data["numShips"] = 5
     data["numShips computer board"] = 5
     data["numShips user board"] = 5
     data["user board"] = emptyGrid(data["rows"],data["cols"])
-    data["computer board"] = emptyGrid(data["rows"], data["cols"])
-    data["computer board"] = addShips(data["computer board"], data["numShips computer board"])
-    
-
+    #data["computer board"] = emptyGrid(data["rows"], data["cols"])
+    data["computer board"] = addShips(emptyGrid(data["rows"], data["cols"]), data["numShips computer board"])
+    data["temporary ship"] = test.testShip()
     return
 
 
@@ -48,6 +47,7 @@ Returns: None
 def makeView(data, userCanvas, compCanvas):
     drawGrid(data, compCanvas, data["computer board"], True)
     drawGrid(data, userCanvas, data["user board"], True)
+    drawShip(data, userCanvas, data["temporary ship"])
     return
 
 
@@ -154,17 +154,37 @@ isVertical(ship)
 Parameters: 2D list of ints
 Returns: bool
 '''
-def isVertical(ship):
-    return
-
-
+def isVertical(ship): 
+    x = ship[0][1]
+    for i in range(len(ship)):
+        if ship[i][1] != x:
+            return False
+    a = []
+    for i in range(len(ship)):
+        a.append(ship[i][0])
+    a.sort()
+    for i in range(len(a)-1):
+        if 1+a[i] != a[i+1]:
+            return False
+    return True
 '''
 isHorizontal(ship)
 Parameters: 2D list of ints
 Returns: bool
 '''
 def isHorizontal(ship):
-    return
+    y = ship[0][0]
+    for i in range(len(ship)):
+        if ship[i][0] != y:
+            return False
+    b= []
+    for i in range(len(ship)):
+        b.append(ship[i][1])
+    b.sort()
+    for i in range(len(b)-1):
+        if 1+b[i] != b[i+1]:
+            return False 
+    return True
 
 
 '''
@@ -173,7 +193,9 @@ Parameters: dict mapping strs to values ; mouse event object
 Returns: list of ints
 '''
 def getClickedCell(data, event):
-    return
+    coord1 = int(event.x/data["cell size"])
+    coord2 = int(event.y/data["cell size"])
+    return [coord2,coord1]
 
 
 '''
@@ -317,8 +339,8 @@ def runSimulation(w, h):
 if __name__ == "__main__":
     print("running main")
     # test.testAddShips()
-    test.week1Tests()
+    test.testGetClickedCell()
 
 
     ## Finally, run the simulation to test it manually ##
-    #  runSimulation(500, 500)
+    #runSimulation(500, 500)
