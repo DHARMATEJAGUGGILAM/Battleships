@@ -182,7 +182,8 @@ Parameters: dict mapping strs to values ; Tkinter canvas; 2D list of ints
 Returns: None
 '''
 def drawShip(data, canvas, ship):
-    
+    for each in ship:
+        canvas.create_rectangle(each[1]*data["cell size"], each[0]*data["cell size"], each[1]*data["cell size"]+data["cell size"], each[0]*data["cell size"]+data["cell size"], fill="white")    
     return
 
 
@@ -192,6 +193,7 @@ Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
 def shipIsValid(grid, ship):
+    
     return
 
 
