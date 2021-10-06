@@ -48,6 +48,7 @@ Returns: None
 def makeView(data, userCanvas, compCanvas):
     drawGrid(data, compCanvas, data["computer board"], True)
     drawGrid(data, userCanvas, data["user board"], True)
+    drawShip(data, userCanvas, data["temporary ship"])
     return
 
 
@@ -193,7 +194,9 @@ Parameters: dict mapping strs to values ; mouse event object
 Returns: list of ints
 '''
 def getClickedCell(data, event):
-    return
+    coord1 = int(event.x/data["cell size"])
+    coord2 = int(event.y/data["cell size"])
+    return [coord2,coord1]
 
 
 '''
@@ -341,4 +344,4 @@ if __name__ == "__main__":
 
 
     ## Finally, run the simulation to test it manually ##
-    #  runSimulation(500, 500)
+    #runSimulation(500, 500)
