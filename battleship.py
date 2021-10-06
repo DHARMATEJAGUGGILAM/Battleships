@@ -34,8 +34,9 @@ def makeModel(data):
     data["numShips user board"] = 5
     data["user board"] = emptyGrid(data["rows"],data["cols"])
     #data["computer board"] = emptyGrid(data["rows"], data["cols"])
-    data["computer board"] = addShips(emptyGrid(data["rows"], data["cols"]), data["numShips computer board"])
-    data["temporary ship"] = test.testShip()
+    data["computer board"] = addShips(data["computer board"], data["numShips computer board"])
+    
+
     return
 
 
@@ -339,7 +340,7 @@ def runSimulation(w, h):
 if __name__ == "__main__":
     print("running main")
     # test.testAddShips()
-    test.testGetClickedCell()
+    test.testIsHorizontal()
 
 
     ## Finally, run the simulation to test it manually ##
