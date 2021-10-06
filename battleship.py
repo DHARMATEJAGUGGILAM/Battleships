@@ -34,8 +34,8 @@ def makeModel(data):
     data["numShips computer board"] = 5
     data["numShips user board"] = 5
     data["user board"] = emptyGrid(data["rows"],data["cols"])
-    #data["computer board"] = emptyGrid(data["rows"], data["cols"])
-    data["computer board"] = addShips(emptyGrid(data["rows"], data["cols"]), data["numShips computer board"])
+    data["computer board"] = emptyGrid(data["rows"], data["cols"])
+    data["computer board"] = addShips(data["computer board"], data["numShips computer board"])
     data["temporary ship"] = []
     data["number of user ships"] = 0
     return
@@ -47,7 +47,8 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
-    drawGrid(data, compCanvas, data["computer board"], True)
+    drawGrid(data, compCanvas, data["computer board"], False)
+    
     drawGrid(data, userCanvas, data["user board"], True)
     drawShip(data, userCanvas, data["temporary ship"])
     return
@@ -68,6 +69,12 @@ Parameters: dict mapping strs to values ; mouse event object ; 2D list of ints
 Returns: None
 '''
 def mousePressed(data, event, board):
+    clickship=getClickedCell(data,event)
+    if (board=="user"):
+        clickUserBoard(data,clickship[0],clickship[1])
+    elif (board == "comp" and data["number of user ships"]==5):
+        clickship = getClickedCell(data, event)
+        runGameTurn(data, clickship[0], clickship[1])
     return
 
 #### WEEK 1 ####
@@ -142,11 +149,15 @@ def drawGrid(data, canvas, grid, showShips):
         for cols in range(data["cols"]):
             if grid[rows][cols] == SHIP_UNCLICKED:
                 canvas.create_rectangle(cols*data["cell size"], rows*data["cell size"], (cols+1)*data["cell size"], (rows+1)*data["cell size"], fill="yellow")
-            else:
+            elif grid[rows][cols] == EMPTY_UNCLICKED:
                 canvas.create_rectangle(cols*data["cell size"], rows*data["cell size"], (cols+1)*data["cell size"], (rows+1)*data["cell size"], fill="blue")
-    
-
-    return
+            elif grid[rows][cols] == SHIP_CLICKED:
+                canvas.create_rectangle(cols*data["cell size"], rows*data["cell size"], (cols+1)*data["cell size"], (rows+1)*data["cell size"], fill="red")
+            elif grid[rows][cols] == EMPTY_CLICKED:
+                canvas.create_rectangle(cols*data["cell size"], rows*data["cell size"], (cols+1)*data["cell size"], (rows+1)*data["cell size"], fill="white")
+            if grid[rows][cols] == SHIP_UNCLICKED and showShips == False :
+                canvas.create_rectangle(cols*data["cell size"], rows*data["cell size"], (cols+1)*data["cell size"], (rows+1)*data["cell size"], fill="blue")
+    return  
 
 
 ### WEEK 2 ###
@@ -206,7 +217,7 @@ Returns: None
 '''
 def drawShip(data, canvas, ship):
     for each in ship:
-        canvas.create_rectangle(each[1]*data["cell size"], each[0]*data["cell size"], each[1]*data["cell size"]+data["cell size"], each[0]*data["cell size"]+data["cell size"], fill="white")    
+        canvas.create_rectangle(each[1]*data["cell size"], each[0]*data["cell size"], each[1]*data["cell size"]+data["cell size"], each[0]*data["cell size"]+data["cell size"], fill="white" )    
     return
 
 
@@ -232,6 +243,7 @@ def placeShip(data):
         for each in data["temporary ship"]:
             data["user board"] [each[0]][each[1]] = SHIP_UNCLICKED
         data["number of user ships"]+= 1
+        print(data["number of user ships"])
     else:
         print("ship is not valid")
     data["temporary ship"] = []    
@@ -262,6 +274,10 @@ Parameters: dict mapping strs to values ; 2D list of ints ; int ; int ; str
 Returns: None
 '''
 def updateBoard(data, board, row, col, player):
+    if board[row][col] == SHIP_UNCLICKED:
+        board[row][col] = SHIP_CLICKED
+    elif board[row][col] == EMPTY_UNCLICKED:
+        board[row][col] = EMPTY_CLICKED
     return
 
 
@@ -271,6 +287,10 @@ Parameters: dict mapping strs to values ; int ; int
 Returns: None
 '''
 def runGameTurn(data, row, col):
+    if (data["computer board"] == SHIP_CLICKED or data["computer board"] == EMPTY_CLICKED):
+        return
+    else :
+        updateBoard(data, data["computer board"], row, col, "user")
     return
 
 
@@ -358,6 +378,6 @@ def runSimulation(w, h):
 if __name__ == "__main__":
     print("running main")
     # test.testAddShips()
-    #test.testClickUserBoard()
+    #test.testUpdateBoard()
     ## Finally, run the simulation to test it manually ##
     runSimulation(500, 500)
