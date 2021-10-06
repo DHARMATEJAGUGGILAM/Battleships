@@ -29,11 +29,11 @@ def makeModel(data):
     data["cols"] = 10
     data["board size"] = 500
     data["cell size"] = data["board size"]/data["rows"]
-    data["numShips"] = 5
+    #data["numShips"] = 5
     data["numShips computer board"] = 5
     data["numShips user board"] = 5
     data["user board"] = emptyGrid(data["rows"],data["cols"])
-    data["computer board"] = emptyGrid(data["rows"], data["cols"])
+    #data["computer board"] = emptyGrid(data["rows"], data["cols"])
     data["computer board"] = addShips(data["computer board"], data["numShips computer board"])
     
 
@@ -154,17 +154,27 @@ isVertical(ship)
 Parameters: 2D list of ints
 Returns: bool
 '''
-def isVertical(ship):
-    return
-
-
+def isVertical(ship): 
+    x = ship[0][1]
+    for i in range(len(ship)):
+        if ship[i][1] != x:
+            return False
+    a = []
+    for i in range(len(ship)):
+        a.append(ship[i][0])
+    a.sort()
+    for i in range(len(a)-1):
+        if 1+a[i] != a[i+1]:
+            return False
+    return True
 '''
 isHorizontal(ship)
 Parameters: 2D list of ints
 Returns: bool
 '''
 def isHorizontal(ship):
-    return
+
+    return True
 
 
 '''
@@ -317,7 +327,7 @@ def runSimulation(w, h):
 if __name__ == "__main__":
     print("running main")
     # test.testAddShips()
-    test.week1Tests()
+    test.testIsVertical()
 
 
     ## Finally, run the simulation to test it manually ##
