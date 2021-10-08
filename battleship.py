@@ -348,11 +348,11 @@ Returns: None
 '''
 def drawGameOver(data, canvas):
     if data["winner"] == "user":
-        canvas.create_text(250,250,text="congragulations!", fill="black")
+        canvas.create_text(250,250,text="congragulations! \n press enter for New Game", fill="black")
     elif data["winner"] == "comp":
-        canvas.create_text(250,250,text="you lost", fill="black") 
+        canvas.create_text(250,250,text="you lost \n press enter for New Game", fill="black") 
     elif data["winner"] == "draw":
-        canvas.create_text(250,250,text="Draw ", fill="black")
+        canvas.create_text(250,250,text="Draw \n press enter for New Game", fill="black")
     return
 
 
