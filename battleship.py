@@ -38,6 +38,7 @@ def makeModel(data):
     data["computer board"] = addShips(data["computer board"], data["numShips computer board"])
     data["temporary ship"] = []
     data["number of user ships"] = 0
+    data["winner"] = None
     return
 
 
@@ -50,6 +51,7 @@ def makeView(data, userCanvas, compCanvas):
     drawGrid(data, compCanvas, data["computer board"], False)
     drawGrid(data, userCanvas, data["user board"], True)
     drawShip(data, userCanvas, data["temporary ship"])
+    drawGameOver(data, userCanvas)
     return
 
 
@@ -68,14 +70,14 @@ Parameters: dict mapping strs to values ; mouse event object ; 2D list of ints
 Returns: None
 '''
 def mousePressed(data, event, board):
-    
-    clickship=getClickedCell(data,event)
-    if (board=="user"):
-        clickUserBoard(data,clickship[0],clickship[1])
-    elif (board == "comp" and data["number of user ships"]==5):
-            clickship = getClickedCell(data, event)
-            runGameTurn(data, clickship[0], clickship[1])
-    return
+    if data["winner"]==None:
+        clickship=getClickedCell(data,event)
+        if (board=="user"):
+            clickUserBoard(data,clickship[0],clickship[1])
+        elif (board == "comp" and data["number of user ships"]==5):
+                clickship = getClickedCell(data, event)
+                runGameTurn(data, clickship[0], clickship[1])
+        return
 
 #### WEEK 1 ####
 
@@ -278,6 +280,8 @@ def updateBoard(data, board, row, col, player):
         board[row][col] = SHIP_CLICKED
     if board[row][col] == EMPTY_UNCLICKED:
         board[row][col] = EMPTY_CLICKED
+    if isGameOver(board)==True:
+        data["winner"]=player
     
     return
 
@@ -321,7 +325,14 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isGameOver(board):
-    return
+    for i in board:
+        print("1st step")
+        for j in i:
+            print("2nd")
+            if j == SHIP_UNCLICKED :
+                print("3rd")
+                return False
+    return True
 
 
 ''' 
@@ -329,7 +340,11 @@ drawGameOver(data, canvas)
 Parameters: dict mapping strs to values ; Tkinter canvas
 Returns: None
 '''
-def drawGameOver(data, canvas): 
+def drawGameOver(data, canvas):
+    if data["winner"] == "user":
+        canvas.create_text(250,250,text="congragulations!", fill="black")
+    elif data["winner"] == "comp":
+        canvas.create_text(250,250,text="you lost", fill="black") 
     return
 
 
@@ -389,7 +404,7 @@ def runSimulation(w, h):
 # This code runs the test cases to check your work
 if __name__ == "__main__":
     #print("running main")
-    #test.testDrawGameOver()
+    test.testIsGameOver()
     #test.testUpdateBoard()
     ## Finally, run the simulation to test it manually ##
     runSimulation(500, 500)
