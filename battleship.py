@@ -39,6 +39,8 @@ def makeModel(data):
     data["temporary ship"] = []
     data["number of user ships"] = 0
     data["winner"] = None
+    data["max number of turns"] = 50
+    data["current number of turns"] = 0
     return
 
 
@@ -298,6 +300,10 @@ def runGameTurn(data, row, col):
         updateBoard(data, data["computer board"], row, col, "user")
     Final = getComputerGuess(data["user board"]) 
     updateBoard(data, data["user board"], Final[0], Final[1], "comp")
+    data["current number of turns"] = data["current number of turns"]+1
+    if data["current number of turns"] == data["max number of turns"]:
+        data["winner"]= "draw"
+
     return
 
 
@@ -345,6 +351,8 @@ def drawGameOver(data, canvas):
         canvas.create_text(250,250,text="congragulations!", fill="black")
     elif data["winner"] == "comp":
         canvas.create_text(250,250,text="you lost", fill="black") 
+    elif data["winner"] == "draw":
+        canvas.create_text(250,250,text="Draw ", fill="black")
     return
 
 
@@ -404,7 +412,6 @@ def runSimulation(w, h):
 # This code runs the test cases to check your work
 if __name__ == "__main__":
     #print("running main")
-    test.testIsGameOver()
-    #test.testUpdateBoard()
+    #test.testDrawGameOver()
     ## Finally, run the simulation to test it manually ##
     runSimulation(500, 500)
